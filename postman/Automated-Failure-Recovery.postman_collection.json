@@ -1,0 +1,104 @@
+{
+  "info": {
+    "name": "Automated Failure Recovery",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Execute Success",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8080/api/recovery/execute",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "recovery", "execute"]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"idempotencyKey\": \"order-1001\",\n  \"operationType\": \"PAYMENT\",\n  \"payload\": \"{\\\"amount\\\":500}\",\n  \"failureMode\": \"NONE\",\n  \"failuresBeforeSuccess\": 0\n}"
+        }
+      }
+    },
+    {
+      "name": "Execute Temporary Failure",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8080/api/recovery/execute",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "recovery", "execute"]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"idempotencyKey\": \"order-1002\",\n  \"operationType\": \"PAYMENT\",\n  \"payload\": \"{\\\"amount\\\":900}\",\n  \"failureMode\": \"TEMPORARY\",\n  \"failuresBeforeSuccess\": 2\n}"
+        }
+      }
+    },
+    {
+      "name": "Execute Permanent Failure",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8080/api/recovery/execute",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "recovery", "execute"]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"idempotencyKey\": \"order-1003\",\n  \"operationType\": \"PAYMENT\",\n  \"payload\": \"{\\\"amount\\\":1200}\",\n  \"failureMode\": \"PERMANENT\",\n  \"failuresBeforeSuccess\": 0\n}"
+        }
+      }
+    },
+    {
+      "name": "Get Request Status",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "http://localhost:8080/api/recovery/order-1002",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "recovery", "order-1002"]
+        }
+      }
+    },
+    {
+      "name": "Recent Requests",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "http://localhost:8080/api/recovery",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "recovery"]
+        }
+      }
+    }
+  ]
+}
+
