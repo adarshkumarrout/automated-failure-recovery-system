@@ -2,6 +2,9 @@ FROM maven:3.9.9-eclipse-temurin-17 AS build
 WORKDIR /workspace
 COPY pom.xml .
 COPY common-events common-events
+COPY recovery-api-service recovery-api-service
+COPY retry-worker-service retry-worker-service
+COPY dlq-alert-service dlq-alert-service
 COPY payment-service payment-service
 RUN mvn -pl payment-service -am -DskipTests package
 
@@ -10,4 +13,3 @@ WORKDIR /app
 COPY --from=build /workspace/payment-service/target/payment-service-0.0.1-SNAPSHOT.jar app.jar
 EXPOSE 8083
 ENTRYPOINT ["java", "-jar", "app.jar"]
-
